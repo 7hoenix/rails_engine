@@ -10,11 +10,11 @@ class Api::V1::ItemsController < ApplicationController
   end
 
   def find
-    respond_with Item.find_by(item_params)
+    respond_with Item.find_by(find_params)
   end
 
   def find_all
-    respond_with Item.where(item_params)
+    respond_with Item.where(find_params)
   end
 
   def random
@@ -31,7 +31,7 @@ class Api::V1::ItemsController < ApplicationController
 
   private
 
-  def item_params
+  def find_params
     params.permit(:name, :description, :unit_price, :merchant_id, :id)
   end
 end
