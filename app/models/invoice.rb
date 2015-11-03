@@ -5,5 +5,6 @@ class Invoice < ActiveRecord::Base
   has_many :invoice_items
   has_many :items, through: :invoice_items
 
-  scope :random, -> { find((1..Invoice.count).to_a.sample) }
+  scope :random, -> { order("RANDOM()").first }
+  scope :successful, -> { joins(:transactions).where(transactions: {result: "success" } ) }
 end
