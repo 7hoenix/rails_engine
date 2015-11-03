@@ -1,5 +1,6 @@
 class Transaction < ActiveRecord::Base
   belongs_to :invoice
 
-  scope :random, -> { find((1..Transaction.count).to_a.sample) }
+  scope :random, -> { order("RANDOM()").first }
+  scope :successful, -> { where(result: "success") }
 end
