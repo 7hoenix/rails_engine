@@ -6,15 +6,15 @@ class Api::V1::CustomersController < ApplicationController
   end
 
   def show
-    respond_with Customer.find(params[:id])
+    respond_with Customer.find_by(id: params[:id])
   end
 
   def find
-    respond_with Customer.find_by(customer_params)
+    respond_with Customer.find_by(find_params)
   end
 
   def find_all
-    respond_with Customer.where(customer_params)
+    respond_with Customer.where(find_params)
   end
 
   def random
@@ -31,7 +31,7 @@ class Api::V1::CustomersController < ApplicationController
 
   private
 
-  def customer_params
+  def find_params
     params.permit(:first_name, :last_name, :id)
   end
 end
