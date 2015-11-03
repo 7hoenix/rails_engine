@@ -17,6 +17,10 @@ class Api::V1::TransactionsController < ApplicationController
     respond_with Transaction.where(transaction_params)
   end
 
+  def random
+    respond_with Transaction.random
+  end
+
   private
 
   def transaction_params
