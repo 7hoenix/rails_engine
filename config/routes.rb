@@ -7,6 +7,10 @@ Rails.application.routes.draw do
           get "find_all"
           get "random"
         end
+        member do
+          get "invoices"
+          get "transactions"
+        end
       end
 
       resources :invoice_items, except: [:new, :edit] do
@@ -57,6 +61,7 @@ Rails.application.routes.draw do
         member do
           get "items"
           get "invoices"
+          get "revenue"
         end
       end
 
