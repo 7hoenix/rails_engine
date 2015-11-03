@@ -2,5 +2,8 @@ class Merchant < ActiveRecord::Base
   has_many :invoices
   has_many :items
 
-  scope :random, -> { find((1..Merchant.count).to_a.sample) }
+  scope :random, -> { order("RANDOM()").first }
+
+  def self.revenue
+  end
 end
