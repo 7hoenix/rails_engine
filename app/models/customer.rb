@@ -1,5 +1,6 @@
 class Customer < ActiveRecord::Base
   has_many :invoices
+  has_many :transactions, through: :invoices
 
-  scope :random, -> { find((1..Customer.count).to_a.sample) }
+  scope :random, -> { order("RANDOM()").first }
 end
