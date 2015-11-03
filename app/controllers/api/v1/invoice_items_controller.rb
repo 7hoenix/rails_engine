@@ -17,6 +17,10 @@ class Api::V1::InvoiceItemsController < ApplicationController
     respond_with InvoiceItem.where(invoice_item_params)
   end
 
+  def random
+    respond_with InvoiceItem.random
+  end
+
   private
 
   def invoice_item_params
