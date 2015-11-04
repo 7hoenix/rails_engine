@@ -6,7 +6,7 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def show
-    respond_with Merchant.find(params[:id])
+    respond_with Merchant.find_by(id: params[:id])
   end
 
   def find
@@ -36,7 +36,7 @@ class Api::V1::MerchantsController < ApplicationController
 
   private
 
-  def info_params
+  def find_params
     params.permit(:name, :id)
   end
 end
