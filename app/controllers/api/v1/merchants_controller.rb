@@ -30,7 +30,6 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def revenue
-    binding.pry
     respond_with Merchant.find(params[:id]).revenue
   end
 
