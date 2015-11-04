@@ -30,12 +30,16 @@ class Api::V1::MerchantsController < ApplicationController
   end
 
   def revenue
-    respond_with Merchant.find(params[:id]).revenue
+    respond_with Merchant.find(params[:id]).revenue(params)
+  end
+
+  def favorite_customer
+    respond_with Merchant.favorite_customer(params).first
   end
 
   private
 
   def find_params
-    params.permit(:name, :id)
+    params.permit(:name, :id, :created_at, :updated_at, :date)
   end
 end
