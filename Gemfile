@@ -12,6 +12,9 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'rspec-rails'
 gem 'responders'
+gem 'factory_girl_rails'
+gem 'faker'
+gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -25,3 +28,6 @@ group :development do
   gem 'spring'
 end
 
+group :test do
+  gem "simplecov", require: false
+end
