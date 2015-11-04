@@ -62,6 +62,7 @@ Rails.application.routes.draw do
           get "items"
           get "invoices"
           get "revenue"
+          get "favorite_customer"
         end
       end
 
