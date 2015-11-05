@@ -6,7 +6,7 @@ class Api::V1::InvoiceItemsController < ApplicationController
   end
 
   def show
-    respond_with InvoiceItem.find_by(id: params[:id])
+    respond_with find_invoice_item
   end
 
   def find
@@ -22,11 +22,11 @@ class Api::V1::InvoiceItemsController < ApplicationController
   end
 
   def invoice
-    respond_with InvoiceItem.find(params[:id]).invoice
+    respond_with find_invoice_item.invoice
   end
 
   def item
-    respond_with InvoiceItem.find(params[:id]).item
+    respond_with find_invoice_item.item
   end
 
   private
@@ -34,5 +34,9 @@ class Api::V1::InvoiceItemsController < ApplicationController
   def find_params
     params.permit(:item_id, :invoice_id, :id, :quantity, :unit_price,
       :created_at, :updated_at)
+  end
+
+  def find_invoice_item
+    InvoiceItem.find_by(id: params[:id])
   end
 end
