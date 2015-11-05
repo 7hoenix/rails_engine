@@ -6,6 +6,7 @@ class Invoice < ActiveRecord::Base
   has_many :items, through: :invoice_items
 
   scope :random, -> { order("RANDOM()").first }
-  scope :successful, -> { joins(:transactions).where(transactions: { result: "success" }) }
+  scope :successful, -> { joins(:transactions).merge(Transaction.successful) }
   scope :created_on, ->(date) { where(invoices: { created_at: date }) }
+  scope :failed, -> { joins(:transactions).merge(Transaction.failed) }
 end
