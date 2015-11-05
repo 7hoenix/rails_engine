@@ -7,9 +7,8 @@ class Customer < ActiveRecord::Base
 
   def self.favorite_merchant(params)
     Merchant.select("merchants.*, count(transactions.id) AS transactions_count")
-      .joins(:customers)
+      .joins(:customers, :transactions)
       .where("customers.id" => params[:id])
-      .joins(:transactions)
       .merge(Transaction.successful)
       .group("merchants.id")
       .order("transactions_count DESC")
