@@ -11,11 +11,15 @@ class Merchant < ActiveRecord::Base
     if params[:date]
       Merchant.revenue_by_date(params)
     else
-      InvoiceItem.joins(:merchants, :transactions)
-        .where("merchants.id" => self.id)
-        .merge(Transaction.successful)
-        .sum("quantity * unit_price")
+      revenue_for_merchant
     end
+  end
+
+  def revenue_for_merchant
+    InvoiceItem.joins(:merchants, :transactions)
+      .where("merchants.id" => self.id)
+      .merge(Transaction.successful)
+      .sum("quantity * unit_price")
   end
 
   def self.revenue_by_date(params)
@@ -36,7 +40,6 @@ class Merchant < ActiveRecord::Base
       .limit(1)
   end
 
-
   def self.customers_with_pending_invoices(params)
     Customer.select("customers.*, count(transactions.id) AS transactions_count")
       .joins(:merchants, :invoices)
@@ -47,7 +50,7 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_revenue(quantity)
-    Merchant.select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS merchant_revenue")
+    select("merchants.*, sum(invoice_items.quantity * invoice_items.unit_price) AS merchant_revenue")
       .joins(:invoice_items)
       .group("merchants.id")
       .order("merchant_revenue DESC")
@@ -56,7 +59,7 @@ class Merchant < ActiveRecord::Base
   end
 
   def self.most_items(quantity)
-    Merchant.select("merchants.*, sum(invoice_items.quantity) AS item_quantity")
+    select("merchants.*, sum(invoice_items.quantity) AS item_quantity")
       .joins(:invoice_items)
       .group("merchants.id")
       .order("item_quantity DESC")
