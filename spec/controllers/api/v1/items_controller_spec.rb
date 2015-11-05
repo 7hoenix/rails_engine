@@ -133,4 +133,24 @@ RSpec.describe Api::V1::ItemsController, type: :controller do
       expect(json["name"]).to eq(merchant.name)
     end
   end
+
+  describe "GET #most_revenue" do
+    it "returns the most revenue for an item" do
+      item = create(:item)
+
+      get :most_revenue, id: item.id, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET #most_items" do
+    it "returns the most items for an item" do
+      item = create(:item)
+
+      get :most_items, id: item.id, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end
