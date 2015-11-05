@@ -6,44 +6,44 @@ class Merchant < ActiveRecord::Base
   has_many :customers, through: :invoices
 
   scope :random, -> { order("RANDOM()").first }
-  scope :revenue_by_date, ->(params) { InvoiceItem.joins(:merchants)
-                          .where("merchants.id" => params[:id])
-                          .joins(:transactions)
-                          .merge(Transaction.successful)
-                          .joins(:invoice)
-                          .merge(Invoice.created_on(params[:date]))
-                          .sum("quantity * unit_price")
-  }
-  scope :favorite_customer, ->(params) { Customer.select("customers.*, count(transactions.id) AS transactions_count")
-                          .joins(:merchants)
-                          .where("merchants.id" => params[:id])
-                          .joins(:transactions)
-                          .merge(Transaction.successful)
-                          .group("customers.id")
-                          .order("transactions_count DESC")
-                          .limit(1)
-  }
 
   def revenue(params = nil)
     if params[:date]
       Merchant.revenue_by_date(params)
     else
-      InvoiceItem.joins(:merchants)
+      InvoiceItem.joins(:merchants, :transactions)
         .where("merchants.id" => self.id)
-        .joins(:transactions)
         .merge(Transaction.successful)
         .sum("quantity * unit_price")
     end
   end
 
+  def self.revenue_by_date(params)
+    InvoiceItem.joins(:merchants, :transactions, :invoice)
+      .where("merchants.id" => params[:id])
+      .merge(Transaction.successful)
+      .merge(Invoice.created_on(params[:date]))
+      .sum("quantity * unit_price")
+  end
+
+  def self.favorite_customer(params)
+    Customer.select("customers.*, count(transactions.id) AS transactions_count")
+      .joins(:merchants, :transactions)
+      .where("merchants.id" => params[:id])
+      .merge(Transaction.successful)
+      .group("customers.id")
+      .order("transactions_count DESC")
+      .limit(1)
+  end
+
+
   def self.customers_with_pending_invoices(params)
     Customer.select("customers.*, count(transactions.id) AS transactions_count")
-        .joins(:merchants)
-        .where("merchants.id" => params[:id])
-        .joins(:invoices)
-        .merge(Invoice.failed)
-        .group("customers.id")
-        .order("transactions_count DESC")
+      .joins(:merchants, :invoices)
+      .where("merchants.id" => params[:id])
+      .merge(Invoice.failed)
+      .group("customers.id")
+      .order("transactions_count DESC")
   end
 
   def self.most_revenue(quantity)
