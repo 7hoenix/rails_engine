@@ -145,4 +145,38 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
       expect(response).to have_http_status(:ok)
     end
   end
+
+  describe "GET #customers_with_pending_invoices" do
+    it "returns the pending invoices for a merchant" do
+      merchant = create(:merchant)
+
+      get :customers_with_pending_invoices, id: merchant.id, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET #most_revenue" do
+    it "returns the most revenue for a merchant" do
+      get :most_revenue, quantity: 1, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET #most_items" do
+    it "returns the most items for a merchant" do
+      get :most_items, quantity: 1, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET #total_revenue" do
+    it "returns the most items for a merchant" do
+      get :most_items, date: Time.now, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end
