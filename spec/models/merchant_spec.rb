@@ -13,13 +13,13 @@ RSpec.describe Merchant, type: :model do
       ii1 = create(:invoice_item, invoice_id: invoice1.id)
       ii2 = create(:invoice_item, invoice_id: invoice2.id)
 
-      revenue = Merchant.revenue id: merchant.id
+      revenue = Merchant.find(merchant.id).revenue id: merchant.id
 
       calculated_revenue = [ii1, ii2].reduce(0) do |sum, ii|
         sum + (ii.quantity * ii.unit_price)
       end
 
-      expect(revenue).to eq(calculated_revenue / 100.00)
+      expect(revenue).to eq(calculated_revenue)
     end
   end
 
@@ -42,7 +42,7 @@ RSpec.describe Merchant, type: :model do
         sum + (ii.quantity * ii.unit_price)
       end
 
-      expect(revenue_by_date).to eq(calculated_revenue / 100.00)
+      expect(revenue_by_date).to eq(calculated_revenue)
     end
   end
 

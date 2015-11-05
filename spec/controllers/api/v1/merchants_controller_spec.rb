@@ -125,4 +125,24 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
       expect(json.first["customer_id"]).to eq(invoice.customer_id)
     end
   end
+
+  describe "GET #revenue" do
+    it "returns revenue for a merchant" do
+      merchant = create(:merchant)
+
+      get :revenue, id: merchant.id, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
+
+  describe "GET #favorite_customer" do
+    it "returns the favorite customer for a merchant" do
+      merchant = create(:merchant)
+
+      get :favorite_customer, id: merchant.id, format: :json
+
+      expect(response).to have_http_status(:ok)
+    end
+  end
 end

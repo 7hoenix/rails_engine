@@ -21,6 +21,7 @@ gem 'active_model_serializers', github: 'rails-api/active_model_serializers'
 
 group :development, :test do
   gem 'pry'
+  gem 'pry-rails'
 end
 
 group :development do
