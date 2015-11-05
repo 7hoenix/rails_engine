@@ -29,10 +29,22 @@ class Api::V1::ItemsController < ApplicationController
     respond_with Item.find(params[:id]).merchant
   end
 
+  def most_revenue
+    respond_with Item.most_revenue(params[:quantity])
+  end
+
+  def most_items
+    respond_with Item.most_items(params[:quantity])
+  end
+
+  def best_day
+    respond_with best_day: Item.best_day(params[:id])
+  end
+
   private
 
   def find_params
     params.permit(:id, :name, :description, :unit_price, :merchant_id,
-      :updated_at, :created_at)
+      :updated_at, :created_at, :quantity)
   end
 end
