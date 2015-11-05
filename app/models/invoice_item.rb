@@ -7,7 +7,6 @@ class InvoiceItem < ActiveRecord::Base
   has_many :transactions, through: :invoice
 
   scope :random, -> { order("RANDOM()").first }
-  scope :created_on, ->(date) { joins(:invoices).where(invoices: { created_at: date }) }
   scope :successful, -> { joins(:transactions).where("transactions.result" => "success") }
 
   def correct_unit_price
