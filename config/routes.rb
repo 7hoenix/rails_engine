@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   namespace :api do
     namespace :v1, defaults: { format: :json } do
-      resources :customers, except: [:new, :edit] do
+      resources :customers, only: [:index, :show] do
         collection do
           get "find"
           get "find_all"
@@ -14,7 +14,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :invoice_items, except: [:new, :edit] do
+      resources :invoice_items, only: [:index, :show] do
         collection do
           get "find"
           get "find_all"
@@ -26,7 +26,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :invoices, except: [:new, :edit] do
+      resources :invoices, only: [:index, :show] do
         collection do
           get "find"
           get "find_all"
@@ -41,7 +41,7 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :items, except: [:new, :edit] do
+      resources :items, only: [:index, :show] do
         collection do
           get "find"
           get "find_all"
@@ -56,7 +56,9 @@ Rails.application.routes.draw do
         end
       end
 
-      resources :merchants, except: [:new, :edit] do
+      resources :merchants, only: [:index, :show] do
+        resources :items, only: [:index], module: "merchants"
+        resources :invoices, only: [:index], module: "merchants"
         collection do
           get "find"
           get "find_all"
@@ -66,15 +68,13 @@ Rails.application.routes.draw do
           get "revenue", to: "merchants#total_revenue"
         end
         member do
-          get "items"
-          get "invoices"
           get "revenue"
           get "favorite_customer"
           get "customers_with_pending_invoices"
         end
       end
 
-      resources :transactions, except: [:new, :edit] do
+      resources :transactions, only: [:index, :show] do
         collection do
           get "find"
           get "find_all"
