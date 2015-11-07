@@ -100,32 +100,6 @@ RSpec.describe Api::V1::MerchantsController, type: :controller do
     end
   end
 
-  describe "GET #items" do
-    it "returns associated items for this merchant" do
-      merchant = create(:merchant)
-      item = create(:item, merchant_id: merchant.id)
-      create(:item, merchant_id: merchant.id)
-
-      get :items, id: merchant.id, format: :json
-
-      expect(response).to have_http_status(:ok)
-      expect(json.first["name"]).to eq(item.name)
-    end
-  end
-
-  describe "GET #invoices" do
-    it "returns associated invoices for this merchant" do
-      merchant = create(:merchant)
-      invoice = create(:invoice, merchant_id: merchant.id)
-      create(:invoice, merchant_id: merchant.id)
-
-      get :invoices, id: merchant.id, format: :json
-
-      expect(response).to have_http_status(:ok)
-      expect(json.first["customer_id"]).to eq(invoice.customer_id)
-    end
-  end
-
   describe "GET #revenue" do
     it "returns revenue for a merchant" do
       merchant = create(:merchant)
